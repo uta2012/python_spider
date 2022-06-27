@@ -1,5 +1,8 @@
 import tieba6
+import time
 
+
+time.
 if __name__ == '__main__':
     kw = input('请输入要爬取的贴吧：')
     beginPage = int(input('请输入开始页：'))

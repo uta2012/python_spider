@@ -3,6 +3,7 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.common.by import By
 from lxml import etree
 import time
+import openpyxl
 
 
 class BilibiliSpider:
@@ -18,14 +19,18 @@ class BilibiliSpider:
         self.driver.get(url)
         self.video_count = 0
 
+
     def get_name(self):
         content = self.driver.page_source
+
         content.replace('<!--', '')
         content.replace('-->', '')
         print(content)
+        tmp = content.find('bili-video-card__info--tit')
+        print('t=', tmp)
 
         content2 = etree.HTML(content)
-        videos = content2.xpath('//div[@class="video-list row"]//div[@class="bili-video-card__info--right"]')
+        videos = content2.xpath('//div[@class="bili-video-card__info--right"]/a/h3/text()')
         print(videos)
 
         for video in videos:
@@ -37,8 +42,9 @@ class BilibiliSpider:
 
 
 
+
 if __name__ == '__main__':
-    url = 'https://search.bilibili.com/all?keyword=%E6%B5%8B%E8%AF%95&from_source=webtop_search&spm_id_from=333.1007'
+    url = 'https://search.bilibili.com/all?keyword=csgo'
     bilibili = BilibiliSpider(url)
     bilibili.get_name()
     bilibili.driver_quit(5)
